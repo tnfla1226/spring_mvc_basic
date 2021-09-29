@@ -75,4 +75,5 @@ public class BasicController {
         System.out.println("취미: " + user.getHobbies());
         return "";
     }
+
 }
