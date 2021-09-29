@@ -7,7 +7,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>check.jsp파일입니다.</h1>
+<h1>WEB-INF의 check.jsp파일입니다.</h1>
 
 <form action="./validate.jsp">
     <label>
