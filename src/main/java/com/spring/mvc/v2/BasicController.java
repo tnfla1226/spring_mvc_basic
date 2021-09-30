@@ -1,11 +1,13 @@
 package com.spring.mvc.v2;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /*
@@ -58,7 +60,7 @@ public class BasicController {
                        String userName,
                        int userAge,
                        @RequestParam("hobbies") ArrayList<String> hobbies) {
-        //input태그의 name과 이름이 같아야함, but @RequestParam 쓰면 이름 지정 가능
+        //input태그의 name과 이름이 같아야함, @RequestParam 쓰면 이름 지정 가능
         System.out.println("/basic/2 요청이 들어옴!");
 
         System.out.println("userId = " + id);
@@ -69,12 +71,45 @@ public class BasicController {
     }
 
     @PostMapping("/basic/join3")
-    public String join(User user) {
+    public String join(User user, Model model) {
         System.out.println("아이디: " + user.getUserId());
         System.out.println("이름: " + user.getUserName());
         System.out.println("취미: " + user.getHobbies());
-        return "";
+
+        model.addAttribute("user", user);
+        return "/request/result";
     }
+
+    //화면쪽으로 서버의 데이터를 전달하는 방법
+    @PostMapping("/model")
+    public String modelBasic(Model model, int age) {
+        // 클라이언트쪽으로 데이터를 greet이라는 이름으로 메롱을 담아서 전달
+        model.addAttribute("greet", "메롱");
+        model.addAttribute("myAge", age);
+
+        int birthYear = LocalDate.now().getYear() - age + 1;
+        model.addAttribute("birth", birthYear);
+
+        return "request/model_study";
+    }
+
+    @GetMapping("/res-quiz")
+    public String res() {
+        return "/request/res-quiz";
+    }
+
+    @PostMapping("/response/quiz")
+    public String quiz(String userId, String userPw, Model model) {
+        System.out.println("로그인 요청 들어옴!");
+
+        model.addAttribute("account", userId);
+        if (userId.equals("kim123") && userPw.equals("kkk1234"))
+            return "request/success";
+        else
+            return "request/fail";
+    }
+
+
 
 
 }
