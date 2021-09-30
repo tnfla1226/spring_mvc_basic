@@ -36,7 +36,7 @@
             # 취미:
             <input type="checkbox" name ="hobbies" value="축구">축구
             <input type="checkbox" name ="hobbies" value="노래하기">노래하기
-            <input type="checkbox" name ="hobbies" value="짐자기">잠자기
+            <input type="checkbox" name ="hobbies" value="잠자기">잠자기
         </label>
 
         <button type="submit">회원가입</button>
