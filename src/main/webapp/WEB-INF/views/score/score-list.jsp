@@ -68,11 +68,7 @@
                 <a class="del-btn" href="/score/delete?stuNum=${s.stuNum}">삭제</a>
             </li>
         </c:forEach>
-        <li>총 학생 수: xxx명 </li>
 
-        <li>
-            # 학번: xxx, 이름: xxx, 국어: xx점, 영어: xx점, 수학: xx점, 총점: xx점, 평균: xx점
-        </li>
     </ul>
 
     <script>
