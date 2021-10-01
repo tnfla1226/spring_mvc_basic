@@ -17,4 +17,5 @@ public interface ScoreRepository {
 
     //점수 정보 삭제 기능
     void remove(int stuNum);
+
 }
