@@ -22,14 +22,20 @@
         border-bottom: 1px solid skyblue;
     }
     .del-btn {
-        width: 5px;
-        height: 5px;
-        text-decoration: none;
+        width: 10px;
+        height: 10px;
+        background: red;
         color: #fff;
-        background-color: red;
         border-radius: 5px;
-        margin: 5px;
+        margin-left: 5px;
+        text-decoration: none;
+        font-size: 0.7em;
+        padding: 6px;
     }
+    .del-btn:hover{
+        background: orangered;
+    }
+
 
 </style>
 

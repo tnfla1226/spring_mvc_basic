@@ -51,4 +51,5 @@ public class ScoreController {
         scoreRepository.remove(stuNum);
         return "redirect:/score/list";
     }
+
 }
