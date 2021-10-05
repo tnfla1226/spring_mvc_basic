@@ -70,7 +70,7 @@
         
         <c:forEach var="s" items="${scoreList}">
             <li>
-                # 학번: ${s.stuNum}, 이름: <a href="/score/detail">${s.name}</a>, 국어: ${s.kor}점, 영어: ${s.eng}점, 수학: ${s.math}점, 총점: ${s.total}점, 평균: ${s.average}
+                # 학번: ${s.stuNum}, 이름: <a href="/score/detail?stuNum=${s.stuNum}">${s.name}</a>, 국어: ${s.kor}점, 영어: ${s.eng}점, 수학: ${s.math}점, 총점: ${s.total}점, 평균: ${s.average}
                 <a class="del-btn" href="/score/delete?stuNum=${s.stuNum}">삭제</a>
             </li>
         </c:forEach>

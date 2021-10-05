@@ -6,21 +6,30 @@ import com.spring.mvc.score.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
 @Log4j2 //로그 출력을 도와주는 기능
-@RequiredArgsConstructor //final필드를 초기화하는 생성자 자동생성
+//@RequiredArgsConstructor //final필드를 초기화하는 생성자 자동생성
 public class ScoreController {
 
     private final ScoreRepository scoreRepository;
     private final ScoreService scoreService;
+
+    @Autowired
+    public ScoreController(
+            @Qualifier("jr") ScoreRepository scoreRepository, ScoreService scoreService) {
+        this.scoreRepository = scoreRepository;
+        this.scoreService = scoreService;
+    }
 
     /*@Autowired  //생성자에게 주입해라
     public ScoreController(ScoreRepository scoreRepository) {
@@ -50,6 +59,15 @@ public class ScoreController {
         log.info("점수 삭제 요청! - ");
         scoreRepository.remove(stuNum);
         return "redirect:/score/list";
+    }
+
+    //점수 정보 상세보기 요청
+    @GetMapping("/score/detail")
+    public String detail(@RequestParam("stuNum") int sn, Model model) {
+        log.info("/score/detail GET: " + sn);
+        Score score = scoreRepository.findOne(sn);
+        model.addAttribute("score", score);
+        return "score/detail";
     }
 
 }

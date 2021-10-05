@@ -32,9 +32,9 @@ public InternalResourceViewResolver viewResolver() {
 ```groovy
 //database 관련 라이브러리 추가
 //jdbc 라이브러리
-compile "org.springframework.boot:spring-boot-starter-jdbc"
+implementation "org.springframework.boot:spring-boot-starter-jdbc"
 //오라클 라이브러리 (11g edition - gradle, maven 라이센스 문제 공식 지원 불가)
-compile fileTree(dir: '/src/main/webapp/WEB-INF/lib', include: ['*.jar'])
+implementation fileTree(dir: '/src/main/webapp/WEB-INF/lib', include: ['*.jar'])
 ```
 
 - 스프링에게 DataSource정보 알려주기 (Hikari DataSource)

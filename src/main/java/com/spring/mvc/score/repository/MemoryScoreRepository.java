@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 //메모리에 성적정보들을 모아서 저장해야 한다.
-@Repository //스프링에 저장소 빈으로 등록
+@Repository("mr") //스프링에 저장소 빈으로 등록
 @Log4j2
 public class MemoryScoreRepository implements ScoreRepository {
 
