@@ -15,6 +15,6 @@ public class Board {
     private String title; //글제목
     private String content; //글내용
     private int viewCnt; //조회수
-    private Date regDAte; //글작성시간
+    private Date regDate; //글작성시간
 
 }
