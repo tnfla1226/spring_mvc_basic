@@ -39,7 +39,6 @@
         WHERE board_no = #{boardNo}
     </update>
 
-
     <!--    조회수 상승 SQL    -->
     <update id="upViewCount">
         UPDATE board
