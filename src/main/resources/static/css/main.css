@@ -9,6 +9,7 @@ header {
     align-items: center;
 }
 header h1 {
+
     flex: 3;
 }
 header .menu-box{
