@@ -28,7 +28,7 @@ class BoardMapperTest {
             Board board = new Board();
             board.setTitle("테스트 제목 " + i);
             board.setContent("테스트 내용 " + i);
-            board.setWriter("USER " + i);
+            board.setWriter("USER" + i);
 
             boardMapper.insertArticle(board);
         }

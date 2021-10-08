@@ -16,5 +16,7 @@ public class Board {
     private String content; //글내용
     private int viewCnt; //조회수
     private Date regDate; //글작성시간
+    
+    private boolean newFlag; //신규게시물 여부 //boolean의 getter은 is ->isNewFlag
 
 }

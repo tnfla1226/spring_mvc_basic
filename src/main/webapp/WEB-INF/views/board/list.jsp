@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -56,17 +57,18 @@
 
         }
     </style>
-    <link rel="stylesheet" href="/css/main.css">
+    <%@ include file="../include/static-head.jsp" %>
 
 
 </head>
 
 <body>
 
+    <%@ include file="../include/header.jsp" %>
 
 
-
-    <h1>게시글 목록</h1>
+    <div class="list-container">
+    <h2>게시글 목록</h2>
 
     <div class="amount">
         <a href="#">10</a>
@@ -74,11 +76,12 @@
         <a href="#">30</a>
       </div>
 
-      <table border=" 1">
-            <tr>
+      <table class="table table-hover">
+            <tr class="table-dark">
                 <td>번호</td>
                 <td>작성자</td>
                 <td>제목</td>
+                <td>작성일자</td>
                 <td>조회수</td>
                 <td>비고</td>
             </tr>
@@ -90,6 +93,14 @@
                     <td>${article.writer}</td>
                     <td>
                         <a href="/board/content?boardNo=${article.boardNo}">${article.title}</a>
+                        
+                        <c:if test="${article.newFlag}">
+                            <span class="badge rounded-pill bg-danger">New</span>
+                        </c:if>
+                    </td>
+                    <td>
+                        <fmt:formatDate value="${article.regDate}"
+                        pattern="yyyy-MM-dd a hh:mm:ss" />
                     </td>
                     <td>${article.viewCnt}</td>
                     <td>
@@ -129,6 +140,7 @@
         <p>
             <a href="/board/write">게시글 작성하기</a>
         </p>
+    </div>
 
         <script>
             //게시물 등록 처리 알림
