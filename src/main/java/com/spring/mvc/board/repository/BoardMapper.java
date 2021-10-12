@@ -1,6 +1,7 @@
 package com.spring.mvc.board.repository;
 
 import com.spring.mvc.board.domain.Board;
+import com.spring.mvc.common.paging.Page;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,6 +11,12 @@ public interface BoardMapper {
 
     //1. 게시물 목록 조회
     List<Board> getArticles();
+
+    //1-2 페이징 적용
+    List<Board> getArticles(Page page);
+
+    //총 게시물 수 조회
+    int getTotalCount();
 
     //2. 게시물 상세 조회
     Board getContent(int boardNo);

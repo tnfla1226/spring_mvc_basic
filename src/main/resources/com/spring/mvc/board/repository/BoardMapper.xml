@@ -11,14 +11,36 @@
         <result property="regDate" column="reg_date" />
     </resultMap>
 
-    <select id="getArticles" resultMap="boardMap">
+    <!--  1. 페이징 없는 전체조회 버전  -->
+    <!--<select id="getArticles" resultMap="boardMap">
         SELECT * FROM board
         ORDER BY board_no DESC
+    </select>-->
+
+    <!--  2. 페이징 적용 게시물 조회  -->
+    <select id="getArticles" resultMap="boardMap">
+        <!--    CDATA로 감싸는 이유는 마크업 내부에서 특수문자를 문자로 인식시키기 위함, 안에서 태그는 인식 못함    -->
+        <![CDATA[
+        SELECT
+            board_no, writer, title, content, reg_date, view_cnt
+        FROM
+            (SELECT /*+INDEX_DESC(board pk_board)*/
+                rownum rn, board_no, title, writer, content, reg_date, view_cnt
+            FROM board
+            WHERE rownum <= #{pageNum} * #{amount})
+        WHERE rn > (#{pageNum} - 1) * #{amount}
+        ]]>
     </select>
 
     <select id="getContent" resultMap="boardMap">
         SELECT * FROM board
         WHERE board_no = #{boardNo}
+    </select>
+
+    <!--  총 게시물 수 조회  -->
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM board
     </select>
 
     <insert id="insertArticle">

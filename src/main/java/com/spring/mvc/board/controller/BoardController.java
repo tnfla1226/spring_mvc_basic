@@ -3,6 +3,8 @@ package com.spring.mvc.board.controller;
 import com.spring.mvc.board.domain.Board;
 import com.spring.mvc.board.repository.BoardMapper;
 import com.spring.mvc.board.service.BoardService;
+import com.spring.mvc.common.paging.Page;
+import com.spring.mvc.common.paging.PageMaker;
 import com.spring.mvc.score.domain.Score;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,10 +28,11 @@ public class BoardController {
 
     //게시물 목록 요청
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(Page page, Model model) {
         log.info("/board/list GET 요청 발생");
-        List<Board> articles = boardService.getArticles();
+        List<Board> articles = boardService.getArticles(page);
         model.addAttribute("articles", articles);
+        model.addAttribute("maker", new PageMaker(page, boardService.getCount()));
 
         return "board/list";
     }

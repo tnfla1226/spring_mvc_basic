@@ -9,32 +9,6 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <style>
-        .pagination {
-            width: 60%;
-            margin-top: 10px;
-            list-style: none;
-            display: flex;
-        }
-
-        .pagination>li {
-            justify-content: flex-end;
-            margin-right: 5px;
-        }
-
-        .pagination>li>a {
-            text-decoration: none;
-            color: black;
-        }
-
-        .pagination>li>a:hover {
-            color: yellowgreen;
-        }
-
-        .pagination>li.active>a {
-            font-weight: bold;
-            color: orangered;
-            font-size: 1.1em;
-        }
 
         .amount {
             width: 30%;
@@ -54,8 +28,18 @@
             text-align: center;
             font-weight: 700;
             text-decoration: none;
-
         }
+
+        ul.pagination {
+            width: fit-content;
+            margin: 5px auto;
+        }
+
+        ul.pagination li.p-active a {
+            background: orangered;
+            color: #fff;
+        }
+
     </style>
     <%@ include file="../include/static-head.jsp" %>
 
@@ -71,9 +55,9 @@
     <h2>게시글 목록</h2>
 
     <div class="amount">
-        <a href="#">10</a>
-        <a href="#">20</a>
-        <a href="#">30</a>
+        <a href="/board/list?amount=10">10</a>
+        <a href="/board/list?amount=20">20</a>
+        <a href="/board/list?amount=30">30</a>
       </div>
 
       <table class="table table-hover">
@@ -113,8 +97,17 @@
 
         <!-- 페이지 영역 -->
         <ul class="pagination">
+            <c:if test="${maker.prev}">
+                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${maker.beginPage - 1}">Prev</a></li>
+            </c:if>
+            
+            <c:forEach var="i" begin="${maker.beginPage}" end="${maker.endPage}" step="1">
+                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${i}">${i}</a></li>
+            </c:forEach>
 
-
+            <c:if test="${maker.next}">
+                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${maker.endPage + 1}">Next</a></li>
+            </c:if>
         </ul>
 
 
