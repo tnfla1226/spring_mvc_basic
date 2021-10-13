@@ -76,7 +76,7 @@
                     <td>${article.boardNo}</td>
                     <td>${article.writer}</td>
                     <td>
-                        <a href="/board/content?boardNo=${article.boardNo}&pageNum=${maker.page.pageNum}&amount=${param.amount}">${article.title}</a>
+                        <a href="/board/content?boardNo=${article.boardNo}&pageNum=${maker.page.pageNum}&amount=${maker.page.amount}">${article.title}</a>
                         
                         <c:if test="${article.newFlag}">
                             <span class="badge rounded-pill bg-danger">New</span>
