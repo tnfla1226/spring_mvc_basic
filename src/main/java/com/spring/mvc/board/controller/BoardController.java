@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -32,17 +29,19 @@ public class BoardController {
         log.info("/board/list GET 요청 발생");
         List<Board> articles = boardService.getArticles(page);
         model.addAttribute("articles", articles);
-        model.addAttribute("maker", new PageMaker(page, boardService.getCount()));
+        model.addAttribute("maker", new PageMaker(page, boardService.getCount(page)));
 
         return "board/list";
     }
 
     //게시물 상세 조회 요청
     @GetMapping("/content")
-    public String content(int boardNo, Model model) {
+    public String content(int boardNo,
+                          @ModelAttribute Page page, Model model) {
         log.info("/board/content GET 요청! - 글번호:" + boardNo);
         Board content = boardService.getContent(boardNo);
         model.addAttribute("article", content);
+//        model.addAttribute("page", page);
         return "board/content";
     }
 

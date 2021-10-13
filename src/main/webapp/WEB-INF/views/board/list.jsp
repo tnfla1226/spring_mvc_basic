@@ -76,7 +76,7 @@
                     <td>${article.boardNo}</td>
                     <td>${article.writer}</td>
                     <td>
-                        <a href="/board/content?boardNo=${article.boardNo}">${article.title}</a>
+                        <a href="/board/content?boardNo=${article.boardNo}&pageNum=${maker.page.pageNum}&amount=${param.amount}">${article.title}</a>
                         
                         <c:if test="${article.newFlag}">
                             <span class="badge rounded-pill bg-danger">New</span>
@@ -98,15 +98,15 @@
         <!-- 페이지 영역 -->
         <ul class="pagination">
             <c:if test="${maker.prev}">
-                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${maker.beginPage - 1}">Prev</a></li>
+                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${maker.beginPage - 1}&amount=${maker.page.amount}">Prev</a></li>
             </c:if>
-            
+
             <c:forEach var="i" begin="${maker.beginPage}" end="${maker.endPage}" step="1">
-                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${i}">${i}</a></li>
+                <li data-page="${i}" class="page-item"><a class="page-link" href="/board/list?pageNum=${i}&amount=${maker.page.amount}">${i}</a></li>
             </c:forEach>
 
             <c:if test="${maker.next}">
-                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${maker.endPage + 1}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="/board/list?pageNum=${maker.endPage + 1}&amount=${maker.page.amount}">Next</a></li>
             </c:if>
         </ul>
 
@@ -160,6 +160,23 @@
                     location.href = '/board/delete?boardNo=' + boardNo;     //location.href는 링크 이동 기능
                 }
             });
+
+            //현재 위치한 페이지 li태그에 클래스 p-active를 부여하는 함수
+            function appendPageActive(curPageNum) {
+                const $ul = document.querySelector('.pagination');
+                for (let $li of [...$ul.children]) {
+                    //모든 li들 중에 data-page 속성값이 현재 요청페이지 번호와 같다면
+                    if ($li.dataset.page === curPageNum) {
+                        $li.classList.add('p-active');
+                        break;
+                    }
+                }
+            }
+            
+            //메인 실행부
+            (function() {
+                appendPageActive('${maker.page.pageNum}');
+            })();
 
         </script>
 

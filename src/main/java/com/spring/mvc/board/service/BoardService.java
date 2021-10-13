@@ -18,7 +18,7 @@ public class BoardService {
 
     //게시물 목록 가져오기
     public List<Board> getArticles(Page page) {
-        List<Board> articles = boardMapper.getArticles(page);
+        List<Board> articles = boardMapper.getSearchArticles(page);
 
         //3분 이내 신규글 new마크 붙이기
         for (Board article : articles) {
@@ -37,8 +37,8 @@ public class BoardService {
     }
 
     //총 게시물 수 조회
-    public int getCount() {
-        return boardMapper.getTotalCount();
+    public int getCount(Page page) {
+        return boardMapper.getTotalCount(page);
     }
 
     //게시글 상세조회
