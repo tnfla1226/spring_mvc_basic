@@ -40,4 +40,9 @@
         WHERE board_no = #{boardNo}
     </select>
 
+    <select id="read" resultMap="replyMap">
+        SELECT * FROM tbl_reply
+        WHERE reply_no = #{replyNo}
+    </select>
+
 </mapper>

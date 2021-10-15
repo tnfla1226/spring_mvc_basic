@@ -18,6 +18,8 @@ class ReplyMapperTest {
     @Autowired
     ReplyMapper replyMapper;
 
+
+
     @Test@DisplayName("특정 글번호 게시글에 댓글 20개를 삽입해야 한다.")
     void insertTest() {
         for (int i = 1; i <= 20; i++) {
@@ -39,7 +41,7 @@ class ReplyMapperTest {
         assertTrue(list.size() == 20);
     }
 
-    /*@Test
+    @Test
     @DisplayName("특정 게시물을 수정할 수 있어야 한다.")
     void updateTest() {
         Reply reply = replyMapper.read(15);
@@ -48,7 +50,7 @@ class ReplyMapperTest {
         replyMapper.update(reply);
 
         assertEquals(reply.getReplyText(), replyMapper.read(15).getReplyText());
-    }*/
+    }
 
     @Test
     @DisplayName("특정 게시물을 삭제할 수 있어야 한다.")
@@ -58,6 +60,6 @@ class ReplyMapperTest {
         replyMapper.delete(11);
         replyMapper.delete(12);
 
-//        assertTrue(replyMapper.getList(322).size() == 16);
+        assertTrue(replyMapper.getList(300).size() == 18);
     }
 }

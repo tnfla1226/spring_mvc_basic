@@ -19,4 +19,7 @@ public interface ReplyMapper {
 
     //댓글 목록 조회
     List<Reply> getList(int boardNo);
+
+    //댓글 개별 조회
+    Reply read(int replyNo);
 }
