@@ -9,3 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="/css/main.css">
+
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
