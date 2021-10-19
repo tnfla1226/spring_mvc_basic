@@ -52,7 +52,9 @@
                     <textarea rows="5" cols="30" disabled>${article.content}</textarea>
                 </p>
 
-                <a href="/board/list?pageNum=${page.pageNum}&amount=${page.amount}&type=${maker.page.type}&keyword=$maker.page.keyword}">글 목록보기</a>&nbsp;
+                <a
+                    href="/board/list?pageNum=${page.pageNum}&amount=${page.amount}&type=${maker.page.type}&keyword=$maker.page.keyword}">글
+                    목록보기</a>&nbsp;
 
                 <a href="/board/modify?boardNo=${article.boardNo}">글 수정하기</a>
 
@@ -118,6 +120,280 @@
             </div>
         </div> <!-- end replies row -->
     </div> <!-- end content container -->
+
+    <!-- 댓글 수정 모달 -->
+    <div class="modal fade bd-example-modal-lg" id="replyModifyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header" style="background: #343A40; color: white;">
+                    <h4 class="modal-title">댓글 수정하기</h4>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal">X</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input id="modReplyId" type="hidden">
+                        <label for="modReplyText" hidden>댓글내용</label>
+                        <textarea id="modReplyText" class="form-control" placeholder="수정할 댓글 내용을 입력하세요."
+                            rows="3"></textarea>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="replyModBtn" type="button" class="btn btn-dark">수정</button>
+                    <button id="modal-close" type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- end replyModifyModal -->
+
+
+    <!-- 댓글 관련 스크립트 -->
+    <script>
+        //댓글 처리 js
+        $(function () {
+
+            //원본 글 번호
+            const boardNo = '${article.boardNo}';
+
+            //날짜 포맷 변환 함수
+            function formatDate(datetime) {
+                //문자열 날짜 데이터를 날짜객체로 변환
+                const dateObj = new Date(datetime);
+                // console.log(dateObj);
+                //날짜객체를 통해 각 날짜 정보 얻기
+                let year = dateObj.getFullYear();
+                //1월이 0으로 설정되어있음.
+                let month = dateObj.getMonth() + 1;
+                let day = dateObj.getDate();
+                let hour = dateObj.getHours();
+                let minute = dateObj.getMinutes();
+
+                //오전, 오후 시간체크
+                let ampm = '';
+                if (hour < 12 && hour >= 6) {
+                    ampm = '오전';
+                } else if (hour >= 12 && hour < 21) {
+                    ampm = '오후';
+                    if (hour !== 12) {
+                        hour -= 12;
+                    }
+                } else if (hour >= 21 && hour <= 24) {
+                    ampm = '밤';
+                    hour -= 12;
+                } else {
+                    ampm = '새벽';
+                }
+
+                //숫자가 1자리일 경우 2자리로 변환
+                (month < 10) ? month = '0' + month: month;
+                (day < 10) ? day = '0' + day: day;
+                (hour < 10) ? hour = '0' + hour: hour;
+                (minute < 10) ? minute = '0' + minute: minute;
+
+                return year + "-" + month + "-" + day + " " + ampm + " " + hour + ":" + minute;
+
+            }
+
+            //댓글 페이지 태그 생성 배치함수
+            function makePageDOM(pageInfo) {
+                let tag = "";
+
+                const begin = pageInfo.beginPage;
+                const end = pageInfo.endPage;
+
+                //이전 버튼 만들기
+                if (pageInfo.prev) {
+                    tag += "<li class='page-item'><a class='page-link page-active' href='" + (begin - 1) +
+                        "'>이전</a></li>";
+                }
+
+                //페이지 번호 리스트 만들기
+                for (let i = begin; i <= end; i++) {
+                    const active = (pageInfo.page.pageNum === i) ? 'p-active' : '';
+                    tag += "<li class='page-item " + active + "'><a class='page-link page-custom' + href='" + i +
+                        "'>" +
+                        i + "</a></li>";
+                }
+
+                //다음 버튼 만들기
+                if (pageInfo.next) {
+                    tag += "<li class='page-item'><a class='page-link page-active' href='" + (end + 1) +
+                        "'>다음</a></li>";
+                }
+
+                //태그 삽입하기
+                $(".pagination").html(tag);
+            }
+
+
+            //댓글 태그 생성, 배치 함수
+            function makeReplyListDOM(replyMap) {
+
+                let tag = '';
+
+                for (let reply of replyMap.replyList) {
+                    tag += "<div id='replyContent' class='card-body' data-replyId='" + reply.replyNo + "'>" +
+                        "    <div class='row user-block'>" +
+                        "       <span class='col-md-3'>" +
+                        "         <b>" + reply.replyWriter + "</b>" +
+                        "       </span>" +
+                        "       <span class='offset-md-6 col-md-3 text-right'><b>" + formatDate(reply
+                            .replyDate) +
+                        "</b></span>" +
+                        "    </div><br>" +
+                        "    <div class='row'>" +
+                        "       <div class='col-md-6'>" + reply.replyText + "</div>" +
+                        "       <div class='offset-md-2 col-md-4 text-right'>" +
+                        "         <a id='replyModBtn' class='btn btn-sm btn-outline-dark' data-bs-toggle='modal' data-bs-target='#replyModifyModal'>수정</a>&nbsp;" +
+                        "         <a id='replyDelBtn' class='btn btn-sm btn-outline-dark' href='#'>삭제</a>" +
+                        "       </div>" +
+                        "    </div>" +
+                        " </div>";
+                }
+
+                //만든 태그를 댓글목록 안에 배치
+                //document.querySelector('#replyData').innerHTML = tag;
+                $('#replyData').html(tag);
+
+                //댓글 수 배치
+                $('#replyCnt').text(replyMap.maker.totalCount)
+
+                //페이지 태그 배치
+                makePageDOM(replyMap.maker);
+            }
+
+
+            //댓글 목록 비동기 요청 처리 함수
+            function getReplyList(pageNum) {
+                fetch('/api/v1/reply/' + boardNo + '/' + pageNum)
+                    .then(res => res.json())
+                    .then(replyMap => {
+                        console.log(replyMap);
+                        makeReplyListDOM(replyMap);
+                    });
+            }
+
+            //페이지 버튼 클릭 이벤트
+            $('.pagination').on('click', 'li a', e => {
+                e.preventDefault(); //태그 고유기능 중지
+                getReplyList(e.target.getAttribute('href'));
+            })
+
+
+            //페이지 진입시 댓글목록 불러오기
+            getReplyList(1);
+
+
+            //=============================================================//
+            //댓글 등록 처리
+            $('#replyAddBtn').on('click', e => {
+
+                const reqInfo = {
+                    method: 'POST', //요청 방식
+                    headers: { //요청 헤더 내용
+                        'content-type': 'application/json'
+                    },
+                    //서버로 전송할 데이터 (JSON)
+                    body: JSON.stringify({
+                        boardNo: boardNo,
+                        replyText: $('#newReplyText').val(),
+                        replyWriter: $('#newReplyWriter').val()
+                    })
+                };
+                fetch('/api/v1/reply', reqInfo)
+                    .then(res => res.text())
+                    .then(msg => {
+                        if (msg === 'insertSuccess') {
+                            getReplyList(1);
+                            $('#newReplyText').val('');
+                            $('#newReplyWriter').val('');
+                        } else {
+                            alert('댓글 등록에 실패했습니다.');
+                        }
+                    });
+
+            });
+
+            //====================== 댓글 수정 이벤트 ==========================//
+
+            //댓글 수정 창 진입 이벤트
+            const $modal = $('#replyModifyModal');
+            $('#replyData').on('click', '#replyModBtn', e => { //수정버튼에만 작동
+                console.log('수정 창 버튼 클릭!')
+
+                //기존 댓글 내용을 가져오기
+                const originText = e.target.parentNode.previousElementSibling.textContent;
+                console.log(originText);
+                //해당 댓글번호가져오기
+                const replyNo = e.target.parentNode.parentNode.parentNode.dataset.replyid;
+
+                //댓글내용 모달에 넣어놓기
+                $('#modReplyText').val(originText);
+                //input hidden에 댓글번호 넣어놓기
+                $('#modReplyId').val(replyNo);
+            });
+
+            //댓글 수정 완료 이벤트
+            $('#replyModBtn').on('click', e => {
+
+                const rno = $('#modReplyId').val();
+
+                const reqInfo = {
+                    method: 'PUT',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        replyNo: rno,
+                        replyText: $('#modReplyText').val()
+                    })
+                };
+                fetch('/api/v1/reply/' + rno, reqInfo)
+                    .then(res => res.text())
+                    .then(msg => {
+                        if (msg === 'modSuccess') {
+                            //모달 숨김 <-> show : 열림
+                            // $modal.modal('hide');
+                            $('#modal-close').click();
+                            getReplyList(1);
+                        } else {
+                            alert('댓글 수정 실패!');
+                        }
+                    });
+            });
+
+            //댓글 삭제 비동기 요청 이벤트
+            $("#replyData").on("click", "#replyDelBtn", e => {
+                const replyId = e.target.parentNode.parentNode.parentNode.dataset.replyid;
+                //console.log("삭제 버튼 클릭! : " + replyId);
+                if (!confirm("진짜로 삭제할거니??")) {
+                    return;
+                }
+                const reqInfo = {
+                    method: 'DELETE'
+                };
+                fetch('/api/v1/reply/' + replyId, reqInfo)
+                    .then(res => res.text())
+                    .then(msg => {
+                        if (msg === 'delSuccess') {
+                            getReplyList(1);
+                        } else {
+                            alert("댓글 삭제에 실패했습니다.");
+                        }
+                    })
+            });
+
+        });
+    </script>
 
 </body>
 

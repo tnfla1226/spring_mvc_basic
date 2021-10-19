@@ -1,5 +1,7 @@
 package com.spring.mvc.reply.controller;
 
+import com.spring.mvc.common.paging.Page;
+import com.spring.mvc.common.paging.PageMaker;
 import com.spring.mvc.reply.domain.Reply;
 import com.spring.mvc.reply.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -24,12 +28,14 @@ public class RelpyApiController {
 
     //댓글 목록 조회 요청 처리//리턴은 무조건 리스포스 엔티티라고 생각하기
     //RestApi 설계
-    @GetMapping("/{boardNo}")
-    public ResponseEntity<List<Reply>> list(
+    @GetMapping("/{boardNo}/{page}")
+    public ResponseEntity<Map<String, Object>> list(
             //경로를통해 변수를 이용하겠다 @PathVariable
-            @PathVariable int boardNo) {
+            @PathVariable int boardNo
+            , @PathVariable("page") int pageNum) {
         log.info("/api/v1/reply/" + boardNo + "GET!");
-        List<Reply> replyList = replyService.getList(boardNo);
+        Page page = new Page(pageNum, 10);
+        Map<String, Object> replyList = replyService.getList(boardNo, page);
 
         return new ResponseEntity<>(replyList, OK);
 

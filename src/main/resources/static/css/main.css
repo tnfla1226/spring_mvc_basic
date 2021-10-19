@@ -74,3 +74,13 @@ write-container h2 {
     padding: 10px;
 }
 
+/* 페이지 */
+ul.pagination {
+    width: fit-content;
+    margin: 5px auto;
+}
+
+ul.pagination li.p-active a {
+    background: orangered;
+    color: #fff;
+}
