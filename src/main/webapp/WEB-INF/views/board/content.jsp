@@ -122,6 +122,7 @@
     </div> <!-- end content container -->
 
     <!-- 댓글 수정 모달 -->
+<<<<<<< HEAD
     <div class="modal fade bd-example-modal-lg" id="replyModifyModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -154,6 +155,7 @@
     </div>
 
     <!-- end replyModifyModal -->
+
 
 
     <!-- 댓글 관련 스크립트 -->
@@ -203,6 +205,7 @@
 
             }
 
+<<<<<<< HEAD
             //댓글 페이지 태그 생성 배치함수
             function makePageDOM(pageInfo) {
                 let tag = "";
@@ -241,13 +244,14 @@
                 let tag = '';
 
                 for (let reply of replyMap.replyList) {
+
                     tag += "<div id='replyContent' class='card-body' data-replyId='" + reply.replyNo + "'>" +
                         "    <div class='row user-block'>" +
                         "       <span class='col-md-3'>" +
                         "         <b>" + reply.replyWriter + "</b>" +
                         "       </span>" +
-                        "       <span class='offset-md-6 col-md-3 text-right'><b>" + formatDate(reply
-                            .replyDate) +
+
+                        "       <span class='offset-md-6 col-md-3 text-right'><b>" + formatDate(reply.replyDate) +
                         "</b></span>" +
                         "    </div><br>" +
                         "    <div class='row'>" +
@@ -292,6 +296,9 @@
             //페이지 진입시 댓글목록 불러오기
             getReplyList(1);
 
+            }
+
+
 
             //=============================================================//
             //댓글 등록 처리
@@ -314,6 +321,7 @@
                     .then(msg => {
                         if (msg === 'insertSuccess') {
                             getReplyList(1);
+
                             $('#newReplyText').val('');
                             $('#newReplyWriter').val('');
                         } else {
